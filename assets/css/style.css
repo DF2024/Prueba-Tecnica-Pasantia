@@ -1,0 +1,57 @@
+
+
+body{
+    font-family: "Roboto Condensed", sans-serif;
+}
+
+.red-line-separator {
+    border: 0; /* Elimina el borde predeterminado del hr */
+    height: 3px; /* Establece la altura/grosor de la línea */
+    background-color:  rgb(220,0,42); /* Color rojo de Bootstrap (danger) */
+    width: 100%; /* Ajusta el ancho de la línea */
+    opacity: 1; /* Asegura que no tenga opacidad si Bootstrap la añade por defecto a los hr */
+}
+
+.carousel-item h2{
+    font-size: 6rem;
+}
+
+.carousel-item h2{
+    font-size: 2rem;
+}
+
+.carousel-item h1{
+    font-size: 2rem;
+}
+
+
+
+.navbar-nav a{
+    font-weight: 500;
+}
+
+.c-grill{
+    background: rgb(220,0,42);
+}
+
+.c-grill-text{
+    color: rgb(220,0,42);
+}
+
+
+@media (min-width: 768px){
+    
+    .carousel-item h2{
+        font-size: 6rem;
+    }
+
+    .carousel-item h1{
+        font-size: 7rem;
+    }
+}
+
+@media (max-width: 982px){
+    .dis{
+        display: block
+    }
+}
