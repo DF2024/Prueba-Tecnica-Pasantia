@@ -37,8 +37,18 @@ if ( ! class_exists( 'Plugin_Junior_Test_Assets_Manager' ) ) {
 
             // Estilos para el shortcode de proyectos
             wp_enqueue_style(
-                'plugin-junior-test-projects-style', // Identificador único
-                PLUGIN_JUNIOR_TEST_URL . 'assets/css/projects-list.css', // 
+                'plugin-main', // Identificador único
+                PLUGIN_JUNIOR_TEST_URL . 'assets/css/bootstrap.min.css', // 
+                array(), // Dependencias (otros CSS que debe cargar antes)
+                '1.0.0', // Versión del archivo (útil para caché)
+                'all' // Medio (screen, print, all)
+            );
+
+
+            
+            wp_enqueue_style(
+                'plugin-main', // Identificador único
+                PLUGIN_JUNIOR_TEST_URL . 'assets/css/style.css', // 
                 array(), // Dependencias (otros CSS que debe cargar antes)
                 '1.0.0', // Versión del archivo (útil para caché)
                 'all' // Medio (screen, print, all)
@@ -56,6 +66,15 @@ if ( ! class_exists( 'Plugin_Junior_Test_Assets_Manager' ) ) {
 
 
             // --- SCRIPTS (JavaScript) ---
+
+            wp_enqueue_script(
+                'plugin-junior-test-main-script', 
+                PLUGIN_JUNIOR_TEST_URL . 'assets/js/bootstrap.min.js',
+                array( 'jquery' ), 
+                '1.0.0', 
+                true
+            );
+
 
             // Script para la funcionalidad JS del shortcode o del tema
             wp_enqueue_script(

@@ -5,7 +5,6 @@
  * @package PluginJuniorTest
  */
 
-// Evita el acceso directo al archivo
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
@@ -13,20 +12,56 @@ if ( ! defined( 'ABSPATH' ) ) {
 if ( ! class_exists( 'Plugin_Junior_Test_Shortcode' ) ) {
 
     class Plugin_Junior_Test_Shortcode {
-
+        private $plugin_templates;
 
         public function __construct() {
             add_shortcode( 'proyectos_listado', array( $this, 'render_projects_list_shortcode' ) );
             add_shortcode( 'formulario_contacto', array( $this, 'render_contact_form_shortcode' ) ); 
 
-
-               // --- AÑADE ESTAS LÍNEAS ---
-        // Engancha la función de guardado para usuarios no logueados
             add_action( 'admin_post_nopriv_save_contact_form', array( $this, 'handle_contact_form_submission' ) );
-            // Engancha la función de guardado para usuarios logueados
             add_action( 'admin_post_save_contact_form', array( $this, 'handle_contact_form_submission' ) );
-        // -------
+
+            // Inicializamos el array de plantillas
+            $this->plugin_templates = array(
+                'templates/home-template.php' => 'Plantilla Home'
+            );
+
+            // Hook para añadir la plantilla al desplegable del editor 
+            add_filter('theme_page_templates', array($this, 'add_plugin_page_template'));
+
+            // Hook para cargar el archivo de la plantilla desde nuestro plugin 
+            add_filter('template_include', array($this, 'load_plugin_page_template'));
+
         }
+
+        public function add_plugin_page_template($templates) {
+            // Unimos el array de plantillas existentes con nuestro array de plantillas del plugin
+            $templates = array_merge($templates, $this->plugin_templates);
+            return $templates;
+        }
+
+        public function load_plugin_page_template($template) {
+        // Comprobamos si estamos en una página singular (página, post, etc.)
+            if (is_singular('page')) {
+                // Obtenemos la plantilla que tiene asignada esta página en la base de datos
+                $page_template = get_post_meta(get_the_ID(), '_wp_page_template', true);
+
+                // Comprobamos si la plantilla asignada es una de las de nuestro plugin
+                if (isset($this->plugin_templates[$page_template])) {
+                    // Si lo es, construimos la ruta completa al archivo dentro del plugin
+                    $plugin_file_path = PLUGIN_JUNIOR_TEST_PATH . $page_template;
+                    
+                    // Si el archivo existe, lo usamos. Si no, WordPress seguirá con el original.
+                    if (file_exists($plugin_file_path)) {
+                        return $plugin_file_path;
+                    }
+                }
+            }
+            
+            // Si no es nuestra plantilla, devolvemos la ruta original sin modificarla.
+            return $template;
+        }
+
 
         /**
          * Callback para el shortcode [proyectos_listado].
