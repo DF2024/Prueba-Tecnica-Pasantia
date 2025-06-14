@@ -35,7 +35,7 @@ get_header();
                 <div class="carousel-caption d-flex flex-column align-items-center justify-content-center h-100" style="bottom: 0; top: 0; left: 0; right: 0;">
                     <h2 class="text-white">TRADITIONAL COOKING</h2>
                     <h1 class="text-white">WITH A MODERN TWIST</h1>
-                    <a href="#" class="btn btn-danger mt-3 btn-a c-grill">CONTACT US</a>
+                    <a href="/contacto" class="btn btn-danger mt-3 btn-a c-grill">CONTACT US</a>
                 </div>
             </div>
             </div>
