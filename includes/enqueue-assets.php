@@ -27,11 +27,7 @@ if ( ! class_exists( 'Plugin_Junior_Test_Assets_Manager' ) ) {
          * @hook wp_enqueue_scripts
          *
          * Explicación del Hook 'wp_enqueue_scripts':
-         * Este hook es el método preferido y más seguro para añadir archivos JavaScript y CSS a tu sitio WordPress.
-         * Se dispara en la parte frontal (front-end) de tu sitio.
-         * Usarlo previene conflictos (cuando diferentes plugins o temas intentan cargar archivos con el mismo nombre)
-         * y asegura que los archivos se carguen en el orden correcto y solo cuando son necesarios.
-         * Es crucial para la optimización y el buen funcionamiento.
+         * Este--
          */
 
         public function registrar_mis_shortcodes() {
@@ -115,17 +111,6 @@ if ( ! class_exists( 'Plugin_Junior_Test_Assets_Manager' ) ) {
                 )
             );
 
-
-
-            // Puedes pasar variables PHP a tu script JS si es necesario
-            // wp_localize_script(
-            //     'plugin-junior-test-main-script',
-            //     'pluginJuniorTestAjax', // Nombre de la variable JS (ej. pluginJuniorTestAjax.ajaxurl)
-            //     array(
-            //         'ajaxurl' => admin_url( 'admin-ajax.php' ), // URL para peticiones AJAX en WordPress
-            //         'nonce'   => wp_create_nonce( 'plugin_junior_test_nonce' ), // Un nonce de seguridad
-            //     )
-            // );
         }
     }
 }

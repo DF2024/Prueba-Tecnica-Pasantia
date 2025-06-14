@@ -15,9 +15,7 @@ if ( ! class_exists( 'Plugin_Junior_Test_CPT' ) ) {
     class Plugin_Junior_Test_CPT {
 
         public function __construct() {
-            add_action( 'init', array( $this, 'register_cpt_project' ) );
-            add_action( 'init', array( $this, 'register_taxonomies_project' ) );
-            add_action( 'init', array( $this, 'register_cpt_contact_message' ) ); // <-- AÑADE ESTA LÍNEA
+            add_action( 'init', array( $this, 'register_cpt_contact_message' ) ); 
         }
 
 
@@ -59,22 +57,22 @@ if ( ! class_exists( 'Plugin_Junior_Test_CPT' ) ) {
                 'label'                 => __( 'Proyecto', 'plugin-junior-test' ),
                 'description'           => __( 'Custom Post Type para proyectos', 'plugin-junior-test' ),
                 'labels'                => $labels,
-                'supports'              => array( 'title', 'editor', 'thumbnail', 'excerpt', 'custom-fields' ), // Qué campos tendrá el editor
-                'hierarchical'          => false, // ¿Puede tener proyectos padres/hijos?
-                'public'                => true, // ¿Es visible en el front-end?
-                'show_ui'               => true, // ¿Es visible en el panel de administración?
-                'show_in_menu'          => true, // ¿Aparece en el menú del panel de administración?
-                'menu_position'         => 5, // Posición en el menú (5 es debajo de 'Entradas')
-                'menu_icon'             => 'dashicons-portfolio', // Icono para el menú
-                'show_in_admin_bar'     => true, // ¿Aparece en la barra de administración?
-                'show_in_nav_menus'     => true, // ¿Se puede usar en menús de navegación?
-                'can_export'            => true, // ¿Se puede exportar?
-                'has_archive'           => true, // ¿Tiene un archivo de listado? (ej. /proyectos/)
-                'exclude_from_search'   => false, // ¿Se excluye de las búsquedas?
-                'publicly_queryable'    => true, // ¿Se puede consultar directamente por URL?
-                'capability_type'       => 'post', // Tipo de capacidad para permisos
-                'show_in_rest'          => true, // Para que esté disponible en la API REST (editor de bloques Gutenberg)
-                'rewrite'               => array( 'slug' => 'proyectos' ), // La URL amigable (ej. /proyectos/mi-proyecto)
+                'supports'              => array( 'title', 'editor', 'thumbnail', 'excerpt', 'custom-fields' ),
+                'hierarchical'          => false, 
+                'public'                => true, 
+                'show_ui'               => true, 
+                'show_in_menu'          => true, 
+                'menu_position'         => 5, 
+                'menu_icon'             => 'dashicons-portfolio', 
+                'show_in_admin_bar'     => true, 
+                'show_in_nav_menus'     => true, 
+                'can_export'            => true, 
+                'has_archive'           => true, 
+                'exclude_from_search'   => false,
+                'publicly_queryable'    => true, 
+                'capability_type'       => 'post', 
+                'show_in_rest'          => true, 
+                'rewrite'               => array( 'slug' => 'proyectos' ), 
             );
             register_post_type( 'project', $args ); // 'project' es el identificador único del CPT
         }
@@ -199,5 +197,5 @@ if ( ! class_exists( 'Plugin_Junior_Test_CPT' ) ) {
         }
     }
 
-
+    
 }

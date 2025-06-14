@@ -50,7 +50,7 @@ if ( ! class_exists( 'Plugin_Junior_Test_Ajax_Handler' ) ) {
             $new_post_args = array(
                 'post_title'   => $post_title,
                 'post_content' => $post_content,
-                'post_status'  => 'publish', // Podría ser 'pending' si quieres revisar antes
+                'post_status'  => 'publish', 
                 'post_type'    => 'contact_message', // Nuestro CPT para mensajes
             );
 
@@ -61,7 +61,7 @@ if ( ! class_exists( 'Plugin_Junior_Test_Ajax_Handler' ) ) {
             } else if ( $post_id === 0 ) {
                 wp_send_json_error( 'No se pudo guardar el mensaje.' );
             } else {
-                // Opcional: Guardar campos adicionales como meta_data (ej. email aparte del título)
+                
                 update_post_meta( $post_id, '_contact_email', $email );
 
                 // 4. Enviar respuesta JSON al cliente
