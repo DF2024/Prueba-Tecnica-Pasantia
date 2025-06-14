@@ -103,7 +103,7 @@ if ( ! class_exists( 'Plugin_Junior_Test_Assets_Manager' ) ) {
             );
 
             wp_localize_script(
-                'plugin-junior-test-main-script',
+                'pjt-main-script',
                 'pluginJuniorTestAjax', // Nombre de la variable JS
                 array(
                     'ajaxurl' => admin_url( 'admin-ajax.php' ), // URL para peticiones AJAX

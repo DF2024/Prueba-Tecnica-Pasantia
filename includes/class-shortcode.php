@@ -21,7 +21,8 @@ if ( ! class_exists( 'Plugin_Junior_Test_Shortcode' ) ) {
 
             // Inicializamos el array de plantillas
             $this->plugin_templates = array(
-                'templates/home-template.php' => 'Plantilla Home'
+                'templates/home-template.php' => 'Plantilla Home',
+                'templates/messages-list-template.php' => 'Lista de Mensajes de Contacto'
             );
 
             // Hook para añadir la plantilla al desplegable del editor 
@@ -117,23 +118,17 @@ if ( ! class_exists( 'Plugin_Junior_Test_Shortcode' ) ) {
             <div class="contact-form-wrapper">
                 <h2>Contáctanos</h2>
 
-                <?php
-                // Mostrar mensaje de éxito o error después de la redirección
-                if ( isset( $_GET['status'] ) && $_GET['status'] == 'success' ) {
-                    echo '<p style="color: green;">¡Gracias por tu mensaje! Ha sido enviado correctamente.</p>';
-                } elseif ( isset( $_GET['status'] ) && $_GET['status'] == 'error' ) {
-                    echo '<p style="color: red;">Hubo un error al enviar tu mensaje. Por favor, inténtalo de nuevo.</p>';
-                }
-                ?>
+                <!-- Este div mostrará los mensajes de éxito o error de AJAX -->
+                <div id="form-messages" style="display:none; padding: 10px; margin-bottom: 15px;"></div>
 
-                <!-- El action apunta a admin-post.php y el método es POST -->
-                <form id="contact-form" class="contact-form" method="post" action="<?php echo esc_url( admin_url('admin-post.php') ); ?>">
+                <!-- El form ya no necesita un "action". JavaScript lo interceptará -->
+                <form id="contact-form" class="contact-form" method="post">
                     
-                    <!-- Campo oculto para decirle a WordPress qué acción ejecutar -->
-                    <input type="hidden" name="action" value="save_contact_form">
+                    <!-- El campo oculto 'action' sigue siendo vital para wp-ajax -->
+                    <input type="hidden" name="action" value="submit_contact_form">
                     
-                    <!-- Nonce de seguridad para verificar la solicitud -->
-                    <?php wp_nonce_field( 'save_contact_form_nonce', 'contact_form_nonce_field' ); ?>
+                    <!-- Nonce de seguridad. Lo llamaremos 'nonce' para que coincida con el Ajax Handler -->
+                    <?php wp_nonce_field( 'plugin_junior_test_form_nonce', 'nonce' ); ?>
 
                     <div class="form-group">
                         <label for="contact-name">Nombre:</label>
@@ -159,5 +154,6 @@ if ( ! class_exists( 'Plugin_Junior_Test_Shortcode' ) ) {
             <?php
             return ob_get_clean();
         }
+
     }
 }

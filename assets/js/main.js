@@ -1,70 +1,54 @@
 jQuery(document).ready(function($) {
-    console.log('¡El script principal del plugin ha cargado correctamente!');
+    
+    // Manejar el envío del formulario de contacto
+    $('#contact-form').on('submit', function(e) {
+        
+        // 1. Prevenir el envío normal del formulario
+        e.preventDefault();
 
-    // Ejemplo de funcionalidad JS: alert al hacer clic en un botón (puedes adaptarlo)
-    // Por ejemplo, si tienes un botón con la clase 'my-js-button' en tu HTML
-    $('.read-more-button').on('click', function(e) {
-        // e.preventDefault(); // Si quieres prevenir el comportamiento por defecto del enlace
-        console.log('Botón "Ver más" clicado para el proyecto: ' + $(this).siblings('.project-title').text());
-        // Puedes añadir aquí una animación, un modal, etc.
-    });
+        // Referencias al formulario, botón y contenedor de mensajes
+        var form = $(this);
+        var submitButton = form.find('#contact-submit');
+        var messagesDiv = $('#form-messages');
+        
+        // 2. Serializar los datos del formulario (recoge todos los inputs)
+        var formData = form.serialize();
 
-    // Otro ejemplo: un efecto simple al pasar el ratón por encima de los proyectos
-    $('.project-item').hover(
-        function() {
-            $(this).css('transform', 'scale(1.02)');
-            $(this).css('box-shadow', '0 4px 8px rgba(0,0,0,0.2)');
-            $(this).css('transition', 'all 0.3s ease');
-        },
-        function() {
-            $(this).css('transform', 'scale(1)');
-            $(this).css('box-shadow', '0 2px 4px rgba(0,0,0,0.1)');
-        }
-    );
-});
+        // 3. Realizar la petición AJAX
+        $.ajax({
+            url: pluginJuniorTestAjax.ajaxurl, // La URL que pasamos desde PHP
+            type: 'POST',
+            data: formData, // Los datos del formulario (incluye 'action' y 'nonce')
+            
+            // Acción antes de enviar: deshabilitar botón y mostrar carga
+            beforeSend: function() {
+                submitButton.prop('disabled', true).text('Enviando...');
+                messagesDiv.hide().text('');
+            },
 
-// ... (Tu código JavaScript existente para proyectos) ...
+            // 4. Función en caso de éxito
+            success: function(response) {
+                if (response.success) {
+                    // Si el servidor dice que todo fue bien
+                    messagesDiv.css('color', 'green').text(response.data).show();
+                    form[0].reset(); // Limpiar el formulario
+                } else {
+                    // Si el servidor reporta un error
+                    messagesDiv.css('color', 'red').text(response.data).show();
+                }
+            },
 
-// Manejo del formulario de contacto con Ajax <-- AÑADE ESTO AL FINAL DEL ARCHIVO
-$('#contact-form').on('submit', function(e) {
-    e.preventDefault(); // Evita el envío tradicional del formulario (recarga de página)
+            // 5. Función en caso de error de red o del servidor
+            error: function() {
+                messagesDiv.css('color', 'red').text('Ocurrió un error inesperado. Por favor, inténtalo de nuevo.').show();
+            },
 
-    var form = $(this);
-    var submitButton = $('#contact-submit');
-    var messageDiv = $('#contact-form-message');
-
-    // Deshabilitar botón y mostrar mensaje de carga
-    submitButton.prop('disabled', true).text('Enviando...');
-    messageDiv.removeClass('success error').text('Enviando mensaje...');
-
-    // Recolectar datos del formulario
-    var formData = {
-        action: 'submit_contact_form', // La acción que WordPress buscará en PHP
-        nonce: pluginJuniorTestAjax.nonce, // El nonce de seguridad
-        contact_name: $('#contact-name').val(),
-        contact_email: $('#contact-email').val(),
-        contact_message: $('#contact-message').val()
-    };
-
-    // Petición AJAX
-    $.ajax({
-        url: pluginJuniorTestAjax.ajaxurl, // La URL de admin-ajax.php
-        type: 'POST',
-        data: formData,
-        success: function(response) {
-            if (response.success) {
-                messageDiv.addClass('success').text(response.data); // Muestra el mensaje de éxito
-                form[0].reset(); // Limpia el formulario
-            } else {
-                messageDiv.addClass('error').text(response.data); // Muestra el mensaje de error
+            // 6. Acción al completar (éxito o error)
+            complete: function() {
+                // Volver a habilitar el botón
+                submitButton.prop('disabled', false).text('Enviar Mensaje');
             }
-        },
-        error: function(xhr, status, error) {
-            messageDiv.addClass('error').text('Ocurrió un error al enviar el mensaje.');
-            console.error('AJAX Error:', status, error, xhr);
-        },
-        complete: function() {
-            submitButton.prop('disabled', false).text('Enviar Mensaje'); // Habilitar botón de nuevo
-        }
+        });
     });
+
 });
